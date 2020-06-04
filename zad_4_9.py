@@ -12,34 +12,38 @@ Przykład użycia:
 
 """
 
+
 class Product:
-    ID = 0
+    ID = 1
 
     def __init__(self, product: str, price: float):
         self.product = product
         self.price = price
-
+        self.added_products = []
+        
     def get_info(self):
         return f"Produkt: {self.product}\nPrice: {self.price} zl"
 
     def __str__(self):
         return self.get_info()
 
-    def add_id(self):
-        pass
-
-
 class Basket:
     def __init__(self):
-        self.basket = []
+        self.products = []
 
-    def add_to_basket(self, product: Product):
-        self.basket.append(product)
+    def add_products(self, product: Product()):
+        self.products.append(product)
 
-    def wyswietl_basket(self):
-        for products in self.basket:
-            Product.ID += 1
-            print(f"{products}\nId: {Product.ID}\n")
+    # def generate_id(self):
+    #     for Product.ID in self.added_products:
+    #         Product.ID += 1
+    #     return Product.ID
+
+    # def id(self, id):
+    #     for self.product in product_list:
+    #         id += ID
+
+
 
 
 pr1 = Product('Czekolada', 4.50)
@@ -47,12 +51,12 @@ pr2 = Product('Woda', 1.50)
 pr3 = Product('Kanapka', 5.00)
 pr4 = Product('Guma do żucia', 1.90)
 
+basket = Basket.add_products(pr1)
 
-basket = Basket()
+# print(pr1.generate_id())
+# print(pr2.generate_id())
+# print(pr3.generate_id())
 
-basket.add_to_basket(pr1)
-basket.add_to_basket(pr2)
-basket.add_to_basket(pr3)
-basket.add_to_basket(pr4)
+print(basket)
 
-print(basket.wyswietl_basket())
+print(pr1.get_info())
