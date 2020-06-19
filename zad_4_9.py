@@ -1,5 +1,5 @@
 """
-Zaimplementuj mechanizm automatycznego generowania kolejnych ID dla produktów. 
+Zaimplementuj mechanizm automatycznego generowania kolejnych ID dla produktów.
 Informację o kolejnym ID przechowuj jako pole klasowe (class attribute).
 
 Przykład użycia:
@@ -19,9 +19,12 @@ class Product:
     def __init__(self, product: str, price: float):
         self.product = product
         self.price = price
+        Product.ID += 1
+        self.id = Product.ID
+
 
     def get_info(self):
-        return f"Produkt: {self.product}\nPrice: {self.price} zl"
+        return f"Produkt: {self.product}\nID: {self.id}\nPrice: {self.price} zl\n"
 
     def __str__(self):
         return self.get_info()
@@ -29,29 +32,50 @@ class Product:
 
 class Basket:
     def __init__(self):
-        self.products = []
+        self._items = dict()
 
-    def add_products(self, product: Product):
-        self.products.append(product)
+    # metoda tworzy nowy koszyk z listy i produkcien(produkt dosany jest raz, może zmieniać sie ilosć).
+    @staticmethod
+    def add_product(product_list: list):
+        new_basket = dict()
+        for product in product_list:
+            if product not in new_basket:
+                new_basket[product] = 1
+            else:
+                new_basket[product] += 1
+        # return new_basket
+        for product, amount in new_basket.items():
+            print(f"{product}Ilosć: {amount}\n")
+    # czy do tej metody jest jakis dostęp z zewnątrz?
 
-    def display_with_ID(self):
-        for products in self.products:
-            Product.ID += 1
-            print(f"{products}\nId: {Product.ID}\n")
+
+    def count_total_price(self) -> float:
+        total_price = 0.0
+        for product, quantity in self._items.items():
+            total_price += product.price * quantity
+        return total_price
 
 
+    def generate_report(self):
+        """
+        Produkty w koszyku:
+        - Woda (1), cena: 10.00 x 5
+        W sumie: 50.00
+        """
+        print('Produkty w koszyku:')
+        for product, quantity in self._items.items():
+            print(f'- {product} x {quantity}')
+        print(f'W sumie: {self.count_total_price():.2f} PLN')
 
-basket = Basket()
+    def product_count(self) -> int:
+        return len(self._items)
 
-pr1 = Product('Czekolada', 4.50)
-pr2 = Product('Woda', 1.50)
-pr3 = Product('Kanapka', 5.00)
-pr4 = Product('Guma do żucia', 1.90)
 
-basket.add_products(pr1)
-basket.add_products(pr2)
-basket.add_products(pr3)
-basket.add_products(pr4)
+b = Basket()
+p1 = Product('Woda', 10.99)
+p2 = Product('Pączek', 1.50)
+p3 = Product('Jabłko', 2.70)
+p4 = Product('Chipsy', 4.50)
+p5 = Product('Koperta', 0.50)
 
-print(basket.display_with_ID())
-
+koszyk = b.add_product([p1, p2, p3, p4, p4, p3, p2, p2, p5])

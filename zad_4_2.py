@@ -39,8 +39,8 @@ class AdvertsList:
 
     def wypisz(self):
         print("Aktualne ogłeszenia:")
-        for elements in self.elements:
-            print(elements)
+        for element in self.elements:
+            print(element)
 
     # szukanie w przedziale cenowym bez funckji lambda
     # def search_price_range(self, start, end):
@@ -71,9 +71,9 @@ ogloszenia.add_advert(adv4)
 ogloszenia.add_advert(adv5)
 ogloszenia.add_advert(adv6)
 
-print(ogloszenia.wypisz())
+ogloszenia.wypisz()
 print()
-print(ogloszenia.search_price_range(15000, 40000))
+ogloszenia.search_price_range(15000, 40000)
 
 
 #  PYTANIA #

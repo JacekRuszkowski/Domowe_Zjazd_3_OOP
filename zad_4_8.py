@@ -7,28 +7,64 @@ backset = Basket.with_products([prod_1, prod_2])
 """
 
 
+class Product:
+    def __init__(self, id: int, name: str, price: float):
+        self.id = id
+        self.name = name
+        self.price = price
+
+    def get_info(self) -> str:
+        return f'Produkt "{self.name}", id: {self.id}, cena: {self.price:.2f} PLN'
+
+    def __str__(self) -> str:
+        return self.get_info()
+
+
 class Basket:
+    def __init__(self):
+        self._items = dict()
+
+    # metoda tworzy nowy koszyk z listy i produkcien(produkt dodawany jest raz, może zmieniać sie ilosć).
     @staticmethod
-    def add_product(product_list):
-        added_products = []
+    def add_product(product_list: list):
+        new_basket = dict()
         for product in product_list:
-            if not product in added_products:
-                added_products.append(product)
-        return added_products
+            if product not in new_basket:
+                new_basket[product] = 1
+            else:
+                new_basket[product] += 1
+        return new_basket
+        # for product, amount in new_basket.items():
+        #     print(f"{product}, Ilosć: {amount}")
+
+    # czy do tej metody jest jakis dostęp z zewnątrz?
+
+    def count_total_price(self) -> float:
+        total_price = 0.0
+        for product, quantity in self._items.items():
+            total_price += product.price * quantity
+        return total_price
+
+    def generate_report(self):
+        """
+        Produkty w koszyku:
+        - Woda (1), cena: 10.00 x 5
+        W sumie: 50.00
+        """
+        print('Produkty w koszyku:')
+        for product, quantity in self._items.items():
+            print(f'- {product} x {quantity}')
+        print(f'W sumie: {self.count_total_price():.2f} PLN')
+
+    def product_count(self) -> int:
+        return len(self._items)
 
 
-basket = Basket.add_product(["p1", "p1", "p2", "p3", "p4", "p1"])
-print(basket)
+b = Basket()
+p1 = Product(1, 'Woda', 10.99)
+p2 = Product(2, 'Pączek', 1.50)
+p3 = Product(3, 'Jabłko', 2.70)
+p4 = Product(4, 'Chipsy', 4.50)
+p5 = Product(5, 'Koperta', 0.50)
 
-
-def test_dodanie_produktow():
-    assert Basket.add_product(["product_1", "product_2", "product_3", "product_4"]) == ["product_1",
-                                                                                        "product_2",
-                                                                                        "product_3",
-                                                                                        "product_4"]
-
-
-def test_dodanie_tego_samego():
-    assert Basket.add_product(["product_1", "product_2", "product_1", "product_3", "product_2"]) == ["product_1",
-                                                                                                     "product_2",
-                                                                                                     "product_3"]
+koszyk = b.add_product([p1, p2, p3, p4, p4, p3, p2, p2, p5])

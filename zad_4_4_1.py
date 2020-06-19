@@ -58,12 +58,12 @@ print(water_tank.info())
 
 def test_add_hotter_water():
     water_tank = Tank(100, 20)
-    assert water_tank.fill(10, 50) == (110, 22.727272727272727)
+    assert water_tank.fill(10, 50) == (110, pytest.approx(23, 0.02))
 
 
 def test_add_colder_water():
     water_tank = Tank(100, 50)
-    assert water_tank.fill(50, 30) == (150, 43.333333333333336)
+    assert water_tank.fill(50, 30) == (150, pytest.approx(43, 0.02))
 
 
 def test_pour_off():
